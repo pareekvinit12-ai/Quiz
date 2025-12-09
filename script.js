@@ -2,6 +2,7 @@ let timerDiv = document.querySelector(".timer");
 let questionDiv = document.querySelector(".question");
 let optionDiv = document.querySelectorAll(".options p");
 let quiz = document.querySelector(".quiz");
+let button = document.querySelector("button");
 
 let data = [
   {
@@ -28,8 +29,8 @@ let data = [
 
 let timer = 5;
 let questionNumber = 0;
+let score = 0;
 
-// timerDiv.innerText = timer;
 printquesandoption();
 start();
 
@@ -42,16 +43,18 @@ function start() {
         clearInterval(interval);
 
         quiz.style.display = "none";
+        displayScore();
         return;
       }
       questionNumber++;
+      resetOptions();
       printquesandoption();
       timer = 5;
       timerDiv.innerText = timer;
     } else {
       timerDiv.innerText = timer;
     }
-  }, 500);
+  }, 1000);
 }
 
 function printquesandoption() {
@@ -61,16 +64,42 @@ function printquesandoption() {
   });
 }
 
-optionDiv.forEach((e, index) => {
-  e.addEventListener("click", () => {
-    console.log(data[questionNumber].a);
+optionDiv.forEach((opt, index) => {
+  opt.addEventListener("click", () => {
+    // console.log(data[questionNumber].a);
 
-    if (e.innerText === data[questionNumber].a) {
-      console.log("hhkh");
-      e.style.backgroundColor = "green";
+    if (opt.innerText === data[questionNumber].a) {
+      // console.log("hhkh");
+      opt.style.backgroundColor = "green";
+      score++;
     } else {
-      e.style.backgroundColor = "red";
-  
+      opt.style.backgroundColor = "red";
+
+      optionDiv.forEach((opt) =>
+        opt.innerText === data[questionNumber].a
+          ? (opt.style.backgroundColor = "green")
+          : ""
+      );
     }
   });
+});
+
+function resetOptions() {
+  optionDiv.forEach((opt) => (opt.style.backgroundColor = "#fff"));
+}
+
+function displayScore() {
+  const para = document.createElement("p");
+  para.innerText = `Your Score is ${score} out of ${data.length}`;
+  document.querySelector("#box").append(para);
+}
+
+button.addEventListener("click", () => {
+  if(questionNumber < data.length -1){
+    questionNumber++;
+    resetOptions()
+    printquesandoption() 
+    timer = 5;
+    timerDiv.innerText = timer
+  }
 });

@@ -65,3 +65,36 @@ h2 {
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
 }
+
+button{
+    background-color: red;
+    padding: 10px 40px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* // button.addEventListener("click", () => {
+//   if (questionNumber === data.length - 1) {
+//     quiz.style.display = "none";
+//     displayScore();
+//     return;
+//   }
+//   questionNumber++;
+//   resetOptions();
+//   printquesandoption();
+//   timer = 5;               // timer reset
+//   timerDiv.innerText = timer;
+// }); */
