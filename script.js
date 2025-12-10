@@ -22,13 +22,15 @@ let data = [
   {
     q: "What is the capital of Japan?",
     options: ["tokyo", "osaka", "kyoto", "hiroshima"],
+    imagelink:
+      "https://i.pinimg.com/1200x/dc/51/f2/dc51f2350cacaf0930f75567d46d9df1.jpg",
     a: "tokyo",
-     image: false
+     image: true
   },
   {
     q: "Where is this monument situated?",
     imagelink:
-      "https://i.pinimg.com/1200x/f8/c4/65/f8c4655ef6ef16f307438e7c78956e8d.jpg",
+      "https://i.pinimg.com/1200x/11/25/f3/1125f383deaf69e4f989a0a30b37f6d8.jpg",
     a: "Agra",
     options: ["Agra", "Jaipur", "New Delhi", "Udaipur"],
     image: true
@@ -37,6 +39,8 @@ let data = [
 let timer = 5;
 let questionNumber = 0;
 let score = 0;
+let array =[];
+
 
 printquesandoption();
 start();
@@ -53,9 +57,10 @@ function start(){
         displayScore();
         return;
       }
-      questionNumber++;
+      questionNumber = rendom ();
       resetOptions();
       printquesandoption();
+      rendom()
       timer = 5;
       timerDiv.innerText = timer;
     } else {
@@ -63,9 +68,16 @@ function start(){
     }
   }, 1000);
 }
+
+
+
+
+   questionNumber = rendom()
 function printquesandoption() {
+  // questionNumber = Math.floor(Math.random() * data.length);
   if(!data[questionNumber].image){
-    questionDiv.innerHTML = data[questionNumber].q;
+    questionDiv.innerHTML = data[questionNumber].q; 
+    // printquesandoption()
   }
   else{
     questionDiv.innerHTML= "";
@@ -79,6 +91,7 @@ function printquesandoption() {
     questionDiv.append(span, img);
 
   }
+  
 
 
 
@@ -105,10 +118,11 @@ optionDiv.forEach((opt, index) => {
     }
   });
 });
+
+
 function resetOptions() {
   optionDiv.forEach((opt) => (opt.style.backgroundColor = "#fff"));
 }
-
 function displayScore() {
   const para = document.createElement("p");
   if(score>=3){
@@ -131,4 +145,15 @@ button.addEventListener("click", () => {
     timer = 5;
     timerDiv.innerText = timer
   }
+questionNumber = rendom();
+printquesandoption();
+
 });
+function rendom(){
+  let a = Math.floor(Math.random()*data.length);
+  if(array.includes(a)){
+    return rendom();
+  }
+  array.push(a)
+  return a;
+}
