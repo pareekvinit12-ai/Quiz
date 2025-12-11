@@ -9,58 +9,56 @@ let data = [
     q: "What is the capital of China?",
     options: ["beijing", "xinjiang", "shanghai", "hungsung"],
     a: "beijing",
-     image: false
-
+    image: false
   },
   {
     q: "What is the capital of Brazil?",
-    options: ["sao paulo", "brasilia", "sao paulo", "rbasilia"],
+    options: ["sao paulo", "brasilia", "rio de janeiro", "salvador"],
     a: "brasilia",
-     image: false
-
+    image: false
   },
   {
     q: "What is the capital of Japan?",
     options: ["tokyo", "osaka", "kyoto", "hiroshima"],
-    imagelink:
-      "https://i.pinimg.com/1200x/dc/51/f2/dc51f2350cacaf0930f75567d46d9df1.jpg",
+    imagelink: "https://i.pinimg.com/1200x/dc/51/f2/dc51f2350cacaf0930f75567d46d9df1.jpg",
     a: "tokyo",
-     image: true
+    image: true
   },
   {
     q: "Where is this monument situated?",
-    imagelink:
-      "https://i.pinimg.com/1200x/11/25/f3/1125f383deaf69e4f989a0a30b37f6d8.jpg",
+    imagelink: "https://i.pinimg.com/1200x/11/25/f3/1125f383deaf69e4f989a0a30b37f6d8.jpg",
     a: "Agra",
     options: ["Agra", "Jaipur", "New Delhi", "Udaipur"],
     image: true
   }
 ];
+
 let timer = 5;
 let questionNumber = 0;
 let score = 0;
+let answered = false;
+let interval = null;
 let array =[];
-
+questionNumber = rendom()
 
 printquesandoption();
 start();
 
 function start(){
   timerDiv.innerHTML = timer;
-  let interval = setInterval(() => {
+  interval = setInterval(() => {
     timer--;
-    if (timer === 0) {
-      if (questionNumber === data.length-1) {
+    if (timer <= 0) {
+      if (array.length >= data.length) {
         clearInterval(interval);
-
         quiz.style.display = "none";
         displayScore();
         return;
       }
-      questionNumber = rendom ();
+      // questionNumber++;
       resetOptions();
+    questionNumber = rendom()
       printquesandoption();
-      rendom()
       timer = 5;
       timerDiv.innerText = timer;
     } else {
@@ -68,16 +66,12 @@ function start(){
     }
   }, 1000);
 }
-
-
-
-
-   questionNumber = rendom()
 function printquesandoption() {
+ answered = false;
+  questionDiv.innerHTML = "";
   // questionNumber = Math.floor(Math.random() * data.length);
   if(!data[questionNumber].image){
     questionDiv.innerHTML = data[questionNumber].q; 
-    // printquesandoption()
   }
   else{
     questionDiv.innerHTML= "";
@@ -91,69 +85,79 @@ function printquesandoption() {
     questionDiv.append(span, img);
 
   }
-  
-
-
-
 optionDiv.forEach((e, index) => {
     e.innerHTML = data[questionNumber].options[index];
   });
 }
 
+  optionDiv.forEach(opt => {
+    opt.style.pointerEvents = "auto";
+    opt.style.backgroundColor = "#fff";
+  });
+function disableOptions() {
+  optionDiv.forEach(opt => (opt.style.pointerEvents = "none"));
+}
+
 optionDiv.forEach((opt, index) => {
   opt.addEventListener("click", () => {
-    // console.log(data[questionNumber].a);
+    if (answered) return;
+    answered = true;
+    disableOptions();
 
-    if (opt.innerText === data[questionNumber].a) {
+    const selected = opt.innerText;
+    const correct = data[questionNumber].a;
+
+    if (selected === correct) {
       opt.style.backgroundColor = "green";
       score++;
     } else {
       opt.style.backgroundColor = "red";
+      optionDiv.forEach(e => {
+        if (e.innerText === correct) e.style.backgroundColor = "green";
+      });
+    }
 
-      optionDiv.forEach((opt) =>
-        opt.innerText === data[questionNumber].a
-          ? (opt.style.backgroundColor = "green")
-          : ""
-      );
+    if (questionNumber === data.length) {
+      clearInterval(interval);
+      quiz.style.display = "none";
+      displayScore();
     }
   });
 });
 
-
 function resetOptions() {
-  optionDiv.forEach((opt) => (opt.style.backgroundColor = "#fff"));
+  optionDiv.forEach((opt) => {
+    opt.style.backgroundColor = "#fff";
+    opt.style.pointerEvents = "auto";
+  });
+  answered = false;
 }
 function displayScore() {
   const para = document.createElement("p");
-  if(score>=3){
-  para.innerText = ` Congratulations Your Score is ${score} out of ${data.length}`;
-    
-  }
-  else{
-  para.innerText = ` bad Your Score is ${score} out of ${data.length}`;
-
-  }
+  para.innerText = `your score is ${score} out of ${data.length}`;
   document.querySelector("#box").append(para);
-
 }
 
-button.addEventListener("click", () => {
-  if(questionNumber < data.length -1){
-    questionNumber++;
-    resetOptions()
-    printquesandoption() 
-    timer = 5;
-    timerDiv.innerText = timer
-  }
-questionNumber = rendom();
-printquesandoption();
+  button.addEventListener("click", () => {
+  if(array.length < data.length){
+    //questionNumber++;
+    resetOptions();
 
+    questionNumber = rendom()
+
+    printquesandoption();
+    timer = 5;
+    timerDiv.innerText = timer;
+  }
 });
+
+
 function rendom(){
-  let a = Math.floor(Math.random()*data.length);
-  if(array.includes(a)){
+  // let rendomquestion = Math.floor(Math.rendom()*data.length)
+let rendomquestion = Math.floor(Math.random()*data.length)
+  if(array.includes(rendomquestion)){
     return rendom();
   }
-  array.push(a)
-  return a;
+  array.push(rendomquestion)
+  return rendomquestion;
 }
