@@ -20,13 +20,13 @@ let data = [
   {
     q: "What is the capital of Japan?",
     options: ["tokyo", "osaka", "kyoto", "hiroshima"],
-    imagelink: "https://i.pinimg.com/1200x/dc/51/f2/dc51f2350cacaf0930f75567d46d9df1.jpg",
+    imagelink: "https://i.pinimg.com/736x/af/f5/5e/aff55e1b81307d9175c75d8e238cf40c.jpg",
     a: "tokyo",
     image: true
   },
   {
     q: "Where is this monument situated?",
-    imagelink: "https://i.pinimg.com/1200x/11/25/f3/1125f383deaf69e4f989a0a30b37f6d8.jpg",
+    imagelink: "https://i.pinimg.com/1200x/26/f7/ce/26f7ce9f0130c27b39e7c7ba32eb8a72.jpg",
     a: "Agra",
     options: ["Agra", "Jaipur", "New Delhi", "Udaipur"],
     image: true
